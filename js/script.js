@@ -4,15 +4,20 @@ var questionPage = document.body.querySelector('.questionpage')
 var resultPage = document.body.querySelector('.resultpage')
 var questionEl = document.querySelector("#question")
 var answerBtnList = document.querySelector(".answerbtnlist")
-var answerBtnA = document.querySelector(".answerbtna")
-var answerBtnB = document.querySelector(".answerbtnb")
-var answerBtnC = document.querySelector(".answerbtnc")
-var answerBtnD = document.querySelector(".answerbtnd")
-
+// var answerBtnA = document.querySelector(".answerbtna")
+// var answerBtnB = document.querySelector(".answerbtnb")
+// var answerBtnC = document.querySelector(".answerbtnc")
+// var answerBtnD = document.querySelector(".answerbtnd")
+var questionIndex = 0
 
 // time intervals
-var timeEl = document.querySelector("#timer");
-var secondsLeft = 15;
+var timeEl = document.querySelector("#timer")
+var secondsLeft = 15
+
+//info storage
+var savedList = document.querySelector(".scorelist")
+var savedName = document.querySelector("#saved-name")
+var savedGrade = document.querySelector("#saved-grade")
 
 //click the start buttom
 //Timer starts and presented with a question
@@ -31,20 +36,10 @@ function clickStartBtn () {
 
 // show a question on the page one at a time 
 function setQuestion () {
-    showQuestion(myQuestions)
+    showQuestion()
     // resetState()
 };
 
-function showQuestion () {
-  i=0; 
-  i = i % myQuestions.length; 
-  i = i + 1;
-  return questionEl .innerText = myQuestions[i].question,
-  answerBtnA .innerText = myQuestions[i].answers.a,
-  answerBtnB .innerText = myQuestions[i].answers.b,
-  answerBtnC .innerText = myQuestions[i].answers.c,
-  answerBtnD .innerText = myQuestions[i].answers.d;
-};
 
 //when answer a question 
 // then present the next question
@@ -54,17 +49,44 @@ answerBtnList.addEventListener("click", function(event) {
   var correct = selectAnswer.date
 
   if (selectAnswer.matches(".btn")) {
-    console.log("I have answered the first question!")
+    console.log("I have answered a question!")
     // then present the next question
- 
-  questionEl.innerText = myQuestions[i+1].question;
-  answerBtnA .innerText = myQuestions[i+1].answers.a,
-  answerBtnB .innerText = myQuestions[i+1].answers.b,
-  answerBtnC .innerText = myQuestions[i+1].answers.c,
-  answerBtnD .innerText = myQuestions[i+1].answers.d;
-  };
+    showQuestion()
+    ;
+  };  
+
+  button.addEventListener('click', selectAnswer)
+
+
+
 });
 
+function showQuestion () {
+  var i = questionIndex
+   questionEl.innerText = myQuestions[i].question,
+
+  myQuestions[i].answers[i].text.forEach(element => {
+    var button = document.createElement('button')
+    button.innerText = myQuestions[i].answers[i].text
+    button.classList.add('btn')
+    if (!answers.correct) {
+      button.dataset.correct = answers[i].correct
+    }
+    answerBtnList.appendChild(button)
+  });
+  //  answerBtnA.innerText = myQuestions[i].answers.a,
+  //  answerBtnB.innerText = myQuestions[i].answers.b,
+  //  answerBtnC.innerText = myQuestions[i].answers.c,
+  //  answerBtnD.innerText = myQuestions[i].answers.d;
+   questionIndex++;
+
+   //adjust this if adding more questions
+  if (questionIndex >= 5) {
+    questionPage.classList.add("hide");
+    resultPage.classList.remove("hide")
+  };
+
+ };
 
 //when question is answered incorrectly 
 // time is subtracted from the clock
@@ -78,7 +100,7 @@ function setTimer() {
     timeEl.textContent = "Time: " + secondsLeft;
 
    if(secondsLeft === 0) {
-     questionPage.classList.add("hide")
+     questionPage.classList.add("hide");
      clearInterval(timerInterval);
      resultPage.classList.remove("hide")
    }
@@ -91,43 +113,50 @@ function setTimer() {
 let myQuestions = [
     {
       question: "which year does the great man, Brendan Eich, who invented Javascript, was born in? ",
-      answers: {
-        "a": "1960",
-        "b": "1961",
-        "c": "1962",
-        "d": "1963"
-      },
-      correctAnswer: "b"
+      answers: [
+        {text : "1960", correct : "false"},
+        {text : "1961", correct : "True"},
+        {text : "1962", correct : "false"},
+        {text : "1963", correct : "True"}
+      ],
     },
     {
       question: "Java script can be used for Storing the form's contents to a database file on the server",
-        answers: {
-          "a": "Yes",
-          "b": "NO",
-          "c": "Don't Know",
-          "d": "Maybe"
-        },
-        correctAnswer: "a"
+        answers: [
+          {text : "Yes", correct : "True"},
+          {text : "NO", correct : "false"},
+          {text : "Don't Know", correct : "false"},
+          {text : "Maybe", correct : "false"}
+        ],
       },
+
       {
         question: "Which of the following is a server-side Java Script object?",
-        answers: {
-          "a": "Function",
-          "b": "File",
-          "c": "FileUpload",
-          "d": "Date"
-        },
-        correctAnswer: "a"
+        answers: [
+          {text : "Function", correct : "True"},
+          {text : "File", correct : "false"},
+          {text : "FileUpload", correct : "false"},
+          {text : "Date", correct : "false"}
+        ],
       },
       {
         question: "Inside which HTML element do we put the JavaScript?",
-        answers: {
-          "a": "<scripting>",
-          "b": "<javascript>",
-          "c": "<script>",
-          "d": "<js>"
-        },
-        correctAnswer: "c"
+        answers: [
+          {text : "<scripting>", correct : "false" },
+          {text : "<javascript>", correct : "false" },
+          {text : "<script>", correct : "True" },
+          {text : "<js>", correct : "false" }
+        ],
       },
+      {
+        question: "Did you enjoy the quiz?",
+        answers: [
+          {text : "<Nope>", correct : "false" },
+          {text : "<Yes>", correct : "false" },
+          {text : "<No>", correct : "True" },
+          {text : "<Okay>", correct : "false" }
+        ],
+      },
+  
   
     ]
