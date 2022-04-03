@@ -4,10 +4,10 @@ var questionPage = document.body.querySelector('.questionpage')
 var resultPage = document.body.querySelector('.resultpage')
 var questionEl = document.querySelector("#question")
 var answerBtnList = document.querySelector(".answerbtnlist")
-// var answerBtnA = document.querySelector(".answerbtna")
-// var answerBtnB = document.querySelector(".answerbtnb")
-// var answerBtnC = document.querySelector(".answerbtnc")
-// var answerBtnD = document.querySelector(".answerbtnd")
+var answerBtnA = document.querySelector(".answerbtna")
+var answerBtnB = document.querySelector(".answerbtnb")
+var answerBtnC = document.querySelector(".answerbtnc")
+var answerBtnD = document.querySelector(".answerbtnd")
 var questionIndex = 0
 
 // time intervals
@@ -15,9 +15,14 @@ var timeEl = document.querySelector("#timer")
 var secondsLeft = 15
 
 //info storage
-var savedList = document.querySelector(".scorelist")
-var savedName = document.querySelector("#saved-name")
-var savedGrade = document.querySelector("#saved-grade")
+
+//add initial variables
+var contestantList = document.querySelector("#contestant-list")
+var initialForm = document.querySelector("#initial-form")
+var initialInput = document.querySelector("#initial-text");
+var clearBtn = document.querySelector("#clearbtn")
+var nameList= document.querySelector("#saved-name")
+var lists = [];
 
 //click the start buttom
 //Timer starts and presented with a question
@@ -52,45 +57,31 @@ answerBtnList.addEventListener("click", function(event) {
     console.log("I have answered a question!")
     // then present the next question
     showQuestion()
-    ;
   };  
-
-  button.addEventListener('click', selectAnswer)
-
-
 
 });
 
 function showQuestion () {
   var i = questionIndex
    questionEl.innerText = myQuestions[i].question,
-
-  myQuestions[i].answers[i].text.forEach(element => {
-    var button = document.createElement('button')
-    button.innerText = myQuestions[i].answers[i].text
-    button.classList.add('btn')
-    if (!answers.correct) {
-      button.dataset.correct = answers[i].correct
-    }
-    answerBtnList.appendChild(button)
-  });
-  //  answerBtnA.innerText = myQuestions[i].answers.a,
-  //  answerBtnB.innerText = myQuestions[i].answers.b,
-  //  answerBtnC.innerText = myQuestions[i].answers.c,
-  //  answerBtnD.innerText = myQuestions[i].answers.d;
+   answerBtnA.innerText = myQuestions[i].answers.a,
+   answerBtnB.innerText = myQuestions[i].answers.b,
+   answerBtnC.innerText = myQuestions[i].answers.c,
+   answerBtnD.innerText = myQuestions[i].answers.d;
    questionIndex++;
 
    //adjust this if adding more questions
-  if (questionIndex >= 5) {
+  if (questionIndex >= 6) {
     questionPage.classList.add("hide");
     resultPage.classList.remove("hide")
   };
-
- };
+};
 
 //when question is answered incorrectly 
 // time is subtracted from the clock
+function TimeReduced () {
 
+}
 
 //when time reaches 0 and all questions are answered
 // then will reach to the result page 
@@ -105,58 +96,76 @@ function setTimer() {
      resultPage.classList.remove("hide")
    }
   }, 1500);
+
 };
 //result page will include initals and sore
 
 
 
+
 let myQuestions = [
     {
-      question: "which year does the great man, Brendan Eich, who invented Javascript, was born in? ",
-      answers: [
-        {text : "1960", correct : "false"},
-        {text : "1961", correct : "True"},
-        {text : "1962", correct : "false"},
-        {text : "1963", correct : "True"}
-      ],
+      question: "Which built-in method adds one or more elements to the end of an array and returns the new length of the array?",
+      answers: {
+        a : "last()",
+        b : "put()", 
+        c : "push()", 
+        d : "None of the above.", 
+    },
+      correctAnswer : 'c'
     },
     {
-      question: "Java script can be used for Storing the form's contents to a database file on the server",
-        answers: [
-          {text : "Yes", correct : "True"},
-          {text : "NO", correct : "false"},
-          {text : "Don't Know", correct : "false"},
-          {text : "Maybe", correct : "false"}
-        ],
+      question: "Which of the following code creates an object?",
+        answers: {
+          a : "var book = Object();", 
+          b : "var book = new Object();", 
+          c : "var book = new OBJECT();",
+          d : "var book = new Book();"
+        },
+        correctAnswer : 'b'
       },
 
       {
-        question: "Which of the following is a server-side Java Script object?",
-        answers: [
-          {text : "Function", correct : "True"},
-          {text : "File", correct : "false"},
-          {text : "FileUpload", correct : "false"},
-          {text : "Date", correct : "false"}
-        ],
+        question: "Which of the following function of Number object returns the number's value?",
+        answers: {
+          a : "toString()", 
+          b : "valueOf()", 
+          c : "toLocaleString()", 
+          d : "toPrecision()", 
+        },
+        correctAnswer : 'b'
       },
       {
-        question: "Inside which HTML element do we put the JavaScript?",
-        answers: [
-          {text : "<scripting>", correct : "false" },
-          {text : "<javascript>", correct : "false" },
-          {text : "<script>", correct : "True" },
-          {text : "<js>", correct : "false" }
-        ],
+        question: "Which of the following function of String object extracts a section of a string and returns a new string?",
+        answers: {
+          a : "<scripting>",
+          b : "<javascript>", 
+          c : "<script>",
+          d : "<js>", 
+        },
+        correctAnswer : 'c'
       },
       {
         question: "Did you enjoy the quiz?",
-        answers: [
-          {text : "<Nope>", correct : "false" },
-          {text : "<Yes>", correct : "false" },
-          {text : "<No>", correct : "True" },
-          {text : "<Okay>", correct : "false" }
-        ],
+        answers: {
+          a : "slice()", 
+          b : "split()", 
+          c : "replace()", 
+          d : "search()", 
+        },
+        correctAnswer : 'a'
       },
+      {
+        question: "Did you enjoy the quiz?",
+        answers: {
+          a : "slice()", 
+          b : "split()", 
+          c : "replace()", 
+          d : "search()", 
+        },
+        correctAnswer : 'a'
+      },
+  
   
   
     ]
